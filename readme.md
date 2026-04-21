@@ -33,16 +33,16 @@ Once installed, you can use the Dockumentor CLI to generate a README for your pr
 To generate a README for a project with a Docker Compose configuration, navigate to your project directory and run the following command:
 
 ```bash
-dockumentor --compose-file path/to/docker-compose.yml --output README.md
+dockumentor -c path/to/docker-compose.yml -o README.md
 ```
 
-- `--compose-file`: Specify the path to your `docker-compose.yml` file.
+- `-c`: Specify the path to your `docker-compose.yml` file.
 - `--output`: Specify the path to the output file (e.g., `README.md`). This is where the generated documentation will be written.
 
 ### Example Command
 
 ```bash
-dockumentor --compose-file ./docker-compose.yml --output ./README.md
+dockumentor -c ./docker-compose.yml -o ./README.md
 ```
 
 ### Appending to Existing Documentation
@@ -50,7 +50,7 @@ dockumentor --compose-file ./docker-compose.yml --output ./README.md
 If you want to append the generated documentation to an existing README file, use the `--append` option:
 
 ```bash
-dockumentor --compose-file ./docker-compose.yml --output ./README.md --append
+dockumentor -c ./docker-compose.yml -o ./README.md --append
 ```
 
 This will insert the generated documentation within specific markers in the existing README file, ensuring that the new content is added without overwriting the existing content.
@@ -62,7 +62,7 @@ Dockumentor uses Jinja2 templates to format the generated documentation. You can
 #### Example Command with Custom Template
 
 ```bash
-dockumentor --compose-file ./docker-compose.yml --template ./templates/dockumentor_compose.md --output ./README.md
+dockumentor -c ./docker-compose.yml -t ./templates/dockumentor_compose.md -o ./README.md
 ```
 
 This command specifies a custom template for generating the documentation. If you don't specify a template, Dockumentor will use a default template.

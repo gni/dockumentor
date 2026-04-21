@@ -1,64 +1,71 @@
-{% for service_name, details in services.items() %}
-### 🐳 Service: {{ service_name }}
-- **Image**: {{ details.image }}
-- **Ports**: {% for port in details.ports %}{{ port }}{% if not loop.last %}, {% endif %}{% endfor %}
-- **Volumes**: {% for volume in details.volumes %}{{ volume }}{% if not loop.last %}, {% endif %}{% endfor %}
-- **Depends On**: {% for dependency in details.depends_on %}{{ dependency }}{% if not loop.last %}, {% endif %}{% endfor %}
-- **Command**: {{ details.command }}
-#### Environment Variables
+# 🐳 Docker Compose Architecture
 
-| Variable | Value |
-|----------|-------|{% for key, value in details.environment.items() %}
-| {{ key }} | {{ value }} |{% endfor %}
-{% endfor %}
+This documentation was automatically generated to map out the services, networks, and dependencies defined in the infrastructure.
 
+## 🏗️ System Overview
 
-## Networks
-
-{% for network, details in networks.items() %}
-### Network: {{ network }}
-
-{% endfor %}
-
-## Graphs
-
-### Network depend
+### Architecture Flowchart
 ```mermaid
-{{ mermaid_diagram }}
+{{ mermaid_flowchart }}
 ```
 
-### Services depend
+### Service Initialization Sequence
 ```mermaid
-sankey-beta
-{{ sankey_diagram_depends }}
+{{ mermaid_sequence }}
 ```
 
-### Services ports
-```mermaid
-sankey-beta
-{{ sankey_diagram_network }}
-```
+---
 
-## Service Interaction Sequence Diagram
+## 📦 Services Specification
 
-```mermaid
-{{ sequence_diagram }}
-```
+{% for name, service in services.items() %}
+### {{ name }}
+🐳 {{ service.image }}
 
-## Example Commands
+command: `{{ service.command }}`
 
-- **Start Services**: `{{ example_commands.start }}`
-- **Stop Services**: `{{ example_commands.stop }}`
-- **View Logs for a Service**: `{{ example_commands.view_logs }}`
+| Configuration | Details |
+|--------------|---------|
+| **Networks** | {{ service.networks | join(', ') | default('default', true) }} |
+| **Dependencies** | {{ service.depends_on | join(', ') | default('None', true) }} |
 
-## Troubleshooting
+{% if service.ports %}
+**Exposed Ports:**
+{% for port in service.ports %}* `{{ port }}`
+{% endfor %}
+{% endif %}
 
-{% for issue in troubleshooting %}
-- {{ issue }}
+{% if service.environment %}
+**Environment Variables:**
+```env
+{% for key, val in service.environment.items() %}{{ key }}={{ val }}
+{% endfor %}```
+{% endif %}
+
+{% if service.volumes %}
+**Volumes:**
+{% for vol in service.volumes %}* `{{ vol }}`
+{% endfor %}
+{% endif %}
+
+---
 {% endfor %}
 
-## Maintenance Tips
+## 🌐 Network Flow Analysis
 
-{% for tip in maintenance_tips %}
-- {{ tip }}
-{% endfor %}
+```mermaid
+{{ mermaid_sankey }}
+```
+
+## 🛠️ Operations & Quick Start
+
+```bash
+# Start all services in the background
+{{ example_commands.start }}
+
+# View real-time logs for a specific service
+{{ example_commands.logs }}
+
+# Shut down and remove containers/networks
+{{ example_commands.stop }}
+```
